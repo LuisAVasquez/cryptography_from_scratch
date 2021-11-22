@@ -3,7 +3,7 @@
 
 #gcd: euclidean algorithm 
 
-def gcd(a,b):
+def gcd(a,b) -> int:
     """
     GCD of two integer numbers
     """
