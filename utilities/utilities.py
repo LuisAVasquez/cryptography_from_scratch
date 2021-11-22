@@ -15,7 +15,7 @@ def string_to_integers(message, sub_character_length =3 ,dummy = '}',
     Encode a message to a tuple of strings of digits.
     
     """
-    print(">>>Encoding: ", message)
+    print(">>>Encoding: ", message, end = "\n")
     #get the ascii values
     ascii_vals = map(ord, message)
 
@@ -40,7 +40,7 @@ def string_to_integers(message, sub_character_length =3 ,dummy = '}',
     ascii_vals = tuple(map(lambda lst: "".join(lst), ascii_vals))
     ascii_vals = tuple(map(int, ascii_vals))
 
-    print(">>>>>>result", *ascii_vals, sep="\t|\t")
+    print(">>>>>>result", *ascii_vals, sep="  |  ")
     return ascii_vals
 
 
@@ -99,3 +99,33 @@ def digits_to_string(digits_list, sub_character_length =3 ,dummy = '}',
 ###########################################
 
 ###########################################
+
+
+###########################################
+# Primes
+###########################################
+
+#10 bit primes
+subtract_for_10bits = [3, 5, 11, 15, 27, 33, 41, 47, 53, 57 ]
+small_primes_10bits = [2**10 - k for k in subtract_for_10bits]
+
+
+#25 bit primes
+39, 49, 61, 85, 91, 115, 141, 159, 165, 183 
+subtract_for_25bits = [27, 35, 51, 71, 113, 117, 131, 161, 195, 233 ]
+small_primes_25bits = [2**25 - k for k in subtract_for_25bits]
+
+
+#50 bit primes
+subtract_for_50bits = [27, 35, 51, 71, 113, 117, 131, 161, 195, 233 ]
+small_primes_50bits = [2**50 - k for k in subtract_for_50bits]
+
+
+
+primes ={ 
+    '10': small_primes_10bits,
+    '50': small_primes_50bits,
+    '25' :small_primes_25bits
+}
+
+#print(small_primes_10bits)
