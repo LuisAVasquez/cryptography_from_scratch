@@ -83,6 +83,7 @@ except ArithmeticError:
 """
 
 # modular exponentiation
+# using square-multiply
 def power_mod(base, exp, n ):
     """
     power_mod(base, exp, n) returns base^exp mod n
@@ -94,15 +95,35 @@ def power_mod(base, exp, n ):
     if exp == 0: return 1
     if exp == 1: return base #% n
     
+    """
     if exp%2: #exp is odd
         return (
             base * power_mod(( base*base) %n, (exp-1) /2, n)
         ) % n
     else: #exp is even
         return power_mod( (base*base)%n, exp/2, n) %n #is this modulus necesary? 
-
+    """
+    result = 1
+    while exp > 0:
+        #check the last bit
+        if exp % 2 : #exp is odd
+            result = (result * base) % n
+        #forget the last bit
+        exp = exp >> 1
+        base = (base * base) % n
+    return result
 
 #print("-"*10)
 #print(power_mod(5,3,10))
 #print(power_mod(12342,4312,10))
 #print(power_mod(12342*10,4312,10))
+
+
+if __name__ == "__main__":
+    N = 1267650600227936667520924129427
+    euler_phi = 1267650600227934415721110444440
+    
+    inter = 17
+    print(gcd(inter, N))
+    print( power_mod(inter, euler_phi, N ) )
+    assert(power_mod(inter, euler_phi, N ) == 1 )
