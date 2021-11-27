@@ -55,12 +55,12 @@ class RSASession():
     def __repr__(self) -> str:
         return ("RSA session parameters:"
         + "\n"
-        + "\t".join(
+        + "\n".join(
             map(str, [
-                "p=", self.p,
-                "q=", self.q,
-                "N=", self.N,
-                "euler_phi=", self.euler_phi
+                ">>> p =\t" + str(self.p),
+                ">>> q =\t" + str(self.q),
+                ">>> N =\t" + str(self.N),
+                ">>> euler_phi =\t" + str(self.euler_phi)
                 ])
             )
         )
@@ -103,6 +103,73 @@ def get_key_pair(rsa_session):
 
     return ( (rsa_session.N, e) , d)
 
-print( 
-    get_key_pair(RSASession())
-)
+
+###########################################
+#Encrypt and Decrypt
+###########################################
+
+
+def encrpyt_single_number(integer, public_key):
+    "send a single number, encrypting with RSA"
+    N,e = public_key
+
+    encrypted = modarith.power_mod(integer, e, N)
+    print(">>>Message", integer, "encrypted as", encrypted, sep="\t")
+    return encrypted
+
+
+def encrpyt_number_list(integer_list, public_key):
+    """send a list of numbers, encrpting with RSA"""
+    
+    return [encrpyt_single_number(integer, public_key) 
+            for integer in integer_list 
+            ]
+
+
+def decrypt_single_number(integer, public_key, private_key):
+    """decrypt a single number with a RSA private key"""
+    N = public_key[0]
+
+    decrypted = modarith.power_mod(integer, private_key, N)
+    print(">>>Message", integer, "decrypted as", decrypted, sep="\t")
+    return decrypted
+
+def decrypt_number_list(integer_list, public_key, private_key):
+    """decrypt a list of numbers with a RSA private key"""
+    return [decrypt_single_number(integer, public_key, private_key)
+            for integer in integer_list
+            ]
+
+
+
+
+###########################################
+#Basic tests
+###########################################
+
+
+if __name__=="__main__":
+    
+    random.seed(10)
+    
+    rsa_session = RSASession()
+    k_pub, k_priv = get_key_pair(rsa_session)
+    N, e = k_pub
+    euler_phi = rsa_session.euler_phi
+    
+    assert( (k_priv * e) % euler_phi == 1)
+
+    assert(modarith.power_mod(5,3,13)==8)
+
+    inter = 17
+    
+    print(N)
+    #print(rsa_session.p * rsa_session.q)
+    #print(rsa_session.N)
+    print(euler_phi)
+    print(modarith.power_mod(inter, euler_phi, N) )
+    assert(modarith.power_mod(inter, euler_phi, N) == 1 )
+    encrypted = modarith.power_mod(inter, e, N)
+    decrypted = modarith.power_mod(encrypted, k_priv, N)
+
+    assert(inter == decrypted)
