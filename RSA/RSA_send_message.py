@@ -29,6 +29,7 @@ from RSA import RSA_utilities
 
 
 if __name__ == "__main__":
+    print("Bob will send an encrpyted message to Alice.")
     print("Alice starts a RSA session...")
     rsa_session = RSA_utilities.RSASession()
 
