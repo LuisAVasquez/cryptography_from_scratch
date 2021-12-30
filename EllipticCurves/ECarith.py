@@ -144,13 +144,13 @@ class ECPoint():
         
         return result
         """
-        #MSB to LSB 
-        bits = [int(x) for x in '{:08b}'.format(integer)]
+        #Most Significant Bit to Least Significand Bit 
+        bits = [int(x) for x in '{:0100b}'.format(integer).lstrip('0')]
 
         for bit in bits:
             result = result + result #double
             if bit:
-                result = result + self    
+                result = result + self    #add
         
         return result
             
